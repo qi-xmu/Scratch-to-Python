@@ -6,7 +6,7 @@
 
 # Coded by Qi
 
-##! 参考文章
+# ! 参考文章
 # https://shumeipai.nxez.com/2016/09/28/rpi-gpio-module-basics.html
 
 # 引入GPIO模块
@@ -19,7 +19,7 @@ GPIO.setmode(GPIO.BCM)
 # (非必需)关闭警告信息
 GPIO.setwarnings(False)
 
-##! 下面介绍GPIO的基本操作（channel 可以自行修改，这里选的的是 GPIO2）
+# ! 下面介绍GPIO的基本操作（channel 可以自行修改，这里选的的是 GPIO2）
 # 设置引脚的状态 输入/输出
 channel = 2
 GPIO.setup(channel, GPIO.OUT)  # 输出模式
@@ -40,7 +40,7 @@ GPIO.output(channel, GPIO.LOW)  # 设为低电平
 GPIO.input(channel)  # 读取引脚状态 得到0/1 对应低/高电平
 
 
-##! 进阶 设置回调函数
+# ! 进阶 设置回调函数
 # 下面为回调函数
 def callback_func():
     print("channel 2 is Rising!")
@@ -55,5 +55,5 @@ GPIO.add_event_detect(channel,
                       callback=callback_func,
                       bouncetime=200)
 
-##! 使用完GPIO资源，在程序结束前释放资源
+# ! 使用完GPIO资源，在程序结束前释放资源
 GPIO.cleanup()
