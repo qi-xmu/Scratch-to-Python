@@ -25,7 +25,7 @@
 
 [WiringPi at Raspberry Pi GPIO Pinout](https://pinout.xyz/pinout/wiringpi)
 
-<img src=".树莓派巡线小车-media/image-20210827222937066.png" alt="image-20210827222937066" style="zoom:50%;" />
+<img src=".Instruction-media/image-20210827222937066.png" alt="image-20210827222937066" style="zoom:50%;" />
 
 我们使用的引脚是`GPIO2 GPIO3`，其中 `GPIO2`接LED灯，`GPIO3`接按键。我们使用了一个和**回调函数**监控按键的发生，当回调的条件满足时，触发回调函数，执行回调函数内的代码。
 
@@ -37,7 +37,7 @@
 
 ​		电机有专门的芯片控制，我们不需要去了解芯片的内在构造，只需要了解如何使用这种芯片。电机的输出端一般时接好的。电机的输入段一共有六个（`ENA, ENB, IN1, IN2, IN3, IN4`），每三个控制一个电机（或者说同边的电机）。下表是其中一组电机控制的真值表，另一组为（`ENB, IN3, IN4`）。同过下表，可知。
 
-![image-20210830194032885](.树莓派巡线小车-media/image-20210830194032885.png)
+![image-20210830194032885](.Instruction-media/image-20210830194032885.png)
 
 控制电机主要包含两部分：**转向**和**转速**。
 
