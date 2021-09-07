@@ -130,3 +130,5 @@ dmypy.json
 
 # 忽略配置文件
 .vscode
+
+rasp.7z
