@@ -75,7 +75,7 @@
 
 **说明：**当遇到障碍物时，引脚为低电平；无障碍物时为高电平。我们使用的时**BCM**，所以对应引脚为`12, 17`
 
-![image-20210908125102902](.README-media/image-20210908125102902.png)
+<img src=".README-media/image-20210908125102902.png" alt="image-20210908125102902" style="zoom: 67%;" />
 
 **说明：**超声波通过特定的信号协议传输距离信号。具体的原理如下。
 
@@ -119,7 +119,7 @@
 
 #### 避障逻辑
 
-**首先说明：**这里使用红外传感器作为避障的主演传感器。超声波同样可以，但是相对麻烦，同学们可以自己尝试。
+**首先说明：** 这里使用红外传感器作为避障的主演传感器。超声波同样可以，但是相对麻烦，同学们可以自己尝试。
 
 **核心逻辑如下：**
 
@@ -129,7 +129,28 @@
 - 当右边遇到障碍物时，小车应该向左转。
 - 当两边同时遇到障碍物时，小车可以选择左转或右转。也可以先后退在左转或右转。（以上任意一种，取决于实际情况）
 
+我们需要不断的去判断时是否存在障碍物，所以我们用一个`while`循环不断地判断上述条件是否满足。
 
+```python
+while True:
+    leftState = GPIO.input(leftSensor)  # 获取左侧传感器的状态
+    rightState = GPIO.input(rightSensor)  # 获取右侧传感器的状态
 
+    # 逻辑分支 if elif(else if的合体) else
+    if leftState == GPIO.HIGH and rightState == GPIO.HIGH:
+        # 没有障碍物 前进
+        motor.forward()
+    elif leftState == GPIO.LOW and rightState == GPIO.HIGH:
+        # 左侧有障碍物 右转
+        motor.right()
+    elif leftState == GPIO.HIGH and rightState == GPIO.LOW:
+        # 右侧有障碍物 左转
+        motor.left()
+    else:
+        # 两侧都有障碍物 先后退再右转
+        motor.backward(1)
+        motor.right()
+```
 
+ 
 

@@ -24,28 +24,25 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 ####! 引用文件 ####
-# 控制电机，直接引用motor.py里的函数进行控制即可
+# 控制电机，直接引用motor.py里的函数进行控制即可（注意motor.py和main.py在相同目录下）
 import motor
 
 
 # 指定GPIO的编码方式, 这里使用BCM编码方式。
 # 具体信息参考 https://pinout.xyz/pinout/5v_power
 GPIO.setmode(GPIO.BCM)
-
 # (非必需)关闭警告信息
 GPIO.setwarnings(False)
 
 ####! 变量定义 ####
 # +------------------------------------------------+
 # 定义引脚
-
 leftSensor = 12
 rightSensor = 17
 
 
 ####! 初始化引脚 ####
-
-
+# +------------------------------------------------+
 def init_sensor():
     '''
     初始化红外传感器。设置为输入模式。
@@ -60,6 +57,8 @@ def init_sensor():
 init_sensor()
 # motor.py里的函数，引用后可以直接使用
 motor.init()
+
+# 主循环
 while True:
     leftState = GPIO.input(leftSensor)  # 获取左侧传感器的状态
     rightState = GPIO.input(rightSensor)  # 获取右侧传感器的状态
