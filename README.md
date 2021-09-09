@@ -151,6 +151,110 @@ while True:
         motor.backward(1)
         motor.right()
 ```
+## 第五部分 自主循迹
 
- 
+### 巡线传感器原理
 
+​		我们使用的时四路巡线传感器，包括四个可以判断地面灰度情况的传感器。
+
+​		正常情况下，地面为白色，传感器未检测到黑线，指示灯灭同时输出**高电平**。当传感器遇到地面上的黑线时，指示灯亮同时输出**低电平**。
+
+​		我们可以通过四个传感器的状态判断黑线相对小车行进过程中产生的偏差。在这个过程中，通过实时矫正小车的行进方向，就可以实现小车巡线的效果。
+
+### 简单思路
+
+- 传感器获取地面信息，返回四个状态值（高/低电平）。
+- 通过四个状态值，对小车行进方向进行决策。
+
+ ### 实践说明
+
+#### 第一步 获取传感器状态
+
+***这里省略GPIO加载过程**
+
+```python
+####! 初始化模块 ####
+# +----------------------------+
+# 初始化传感器引脚
+def init_sensor():
+    '''
+    初始化循迹传感器。
+    '''
+    GPIO.setup(TrackSensorLeft1, GPIO.IN)
+    GPIO.setup(TrackSensorLeft2, GPIO.IN)
+    GPIO.setup(TrackSensorRight1, GPIO.IN)
+    GPIO.setup(TrackSensorRight2, GPIO.IN)
+
+####! 需要的功能封装成函数 ####
+# +----------------------------+
+
+def get_track_sensor_state():
+    '''
+    获取当前传感器状态。
+    '''
+    leftState1 = GPIO.input(TrackSensorLeft1)
+    leftState2 = GPIO.input(TrackSensorLeft2)
+    rightState1 = GPIO.input(TrackSensorRight1)
+    rightState2 = GPIO.input(TrackSensorRight2)
+    # 将结果写成一个元组返回给调用函数的地方
+    return (leftState1, leftState2, rightState1, rightState2)
+```
+
+#### 第二部 根据传感器状态做出决策
+
+**正常的左转右转**
+
+```python
+# 四路循迹引脚电平状态
+#  0 0 X 0
+#  1 0 X 0
+#  0 1 X 0
+# 以上6种电平状态时 小车右转
+if (state[0] == 0 or state[1] == 0) and (state[3] == 0):
+  motor.turnRight(delay_time=dtime, duty=speed)
+# 四路循迹引脚电平状态
+# 0 X 0 0
+# 0 X 0 1
+# 0 X 1 0
+# 以上6种电平状态时 小车左转
+elif (state[2] == 0 or state[3] == 0) and (state[0] == 0):
+	motor.turnLeft(delay_time=dtime, duty=speed)
+```
+
+**大转弯**
+
+```python
+# 四路循迹引脚电平状态
+# 0 X X X
+# 最左边检测到 小车转弯时间可以适当变大 小车左转
+elif state[0] == 0:
+	motor.turnLeft(delay_time=bdtime, duty=speed)
+# X X X 0
+# 最右边检测到 小车转弯时间可以适当变大 小车右转
+elif state[3] == 0:
+	motor.turnRight(delay_time=bdtime, duty=speed)
+```
+
+**小转弯**
+
+```python
+# X 0 1 X
+# 处理左小弯
+elif state[1] == 0 and state[2] == 1:
+	motor.turnLeft(delay_time=ldtime, duty=speed)
+# X 1 0 X
+# 处理右小弯
+elif state[1] == 1 and state[2] == 0:
+	motor.turnRight(delay_time=ldtime, duty=speed)
+```
+
+**直行**
+
+```python
+# X 0 0 X
+# 处理直线
+elif state[1] == 0 and state[2] == 0:
+	motor.forward(delay_time=dtime, duty=speed)
+```
+
+**说明：**上诉判断需要在一个循环内不断判断，这个才能及时做出决策，让小车正确循迹行驶。

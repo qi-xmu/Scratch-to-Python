@@ -46,7 +46,6 @@ while True:
     # 以上6种电平状态时 小车右转
     if (state[0] == 0 or state[1] == 0) and (state[3] == 0):
         motor.turnRight(delay_time=dtime, duty=speed)
-    # 四路循迹引脚电平状态
     # 0 X 0 0
     # 0 X 0 1
     # 0 X 1 0
@@ -54,6 +53,7 @@ while True:
     elif (state[2] == 0 or state[3] == 0) and (state[0] == 0):
         motor.turnLeft(delay_time=dtime, duty=speed)
 
+    # 四路循迹引脚电平状态
     # 0 X X X
     # 最左边检测到 小车转弯时间可以适当变大 小车左转
     elif state[0] == 0:
@@ -63,6 +63,7 @@ while True:
     elif state[3] == 0:
         motor.turnRight(delay_time=bdtime, duty=speed)
 
+    # 四路循迹引脚电平状态
     # X 0 1 X
     # 处理左小弯
     elif state[1] == 0 and state[2] == 1:
@@ -72,6 +73,7 @@ while True:
     elif state[1] == 1 and state[2] == 0:
         motor.turnRight(delay_time=ldtime, duty=speed)
 
+    # 四路循迹引脚电平状态
     # X 0 0 X
     # 处理直线
     elif state[1] == 0 and state[2] == 0:
