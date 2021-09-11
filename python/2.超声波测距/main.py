@@ -28,8 +28,8 @@ from time import time, sleep
 ####! 变量定义 ####
 # +----------------------------+
 # 定义引脚
-trig = 0
-echo = 1
+echo = 0
+trig = 1
 
 
 ####! 函数定义 ####
@@ -97,6 +97,7 @@ def get_distance():
 
 
 if __name__ == '__main__':
+    init_distance()
     while True:
         print(f"Distance now is {get_distance()}cm")
         delay_ms(1000)  # 延时1s
