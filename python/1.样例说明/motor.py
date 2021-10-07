@@ -129,8 +129,8 @@ def turnRight(delay_time=0, duty=50):
     duty: 占空比，反映速度快慢，默认值：50。
     '''
     # 设置电机为反转
-    GPIO.output(AIN1, GPIO.LOW)
-    GPIO.output(AIN2, GPIO.HIGH)
+    GPIO.output(AIN1, GPIO.HIGH)
+    GPIO.output(AIN2, GPIO.LOW)
     GPIO.output(BIN1, GPIO.LOW)
     GPIO.output(BIN2, GPIO.LOW)
     # 设置占空比 0~100 占空比越大速度越快
