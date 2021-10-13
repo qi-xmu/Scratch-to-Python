@@ -3,8 +3,8 @@ from time import sleep
 
 
 class Motor:
-    channelA = []  # AIN1 AIN2 ENA
-    channelB = []  # BIN1 BIN2 ENB
+    channelA = [20, 21, 16]  # AIN1 AIN2 ENA
+    channelB = [19, 26, 13]  # BIN1 BIN2 ENB
 
     PWMA = None
     PWMB = None
@@ -27,12 +27,8 @@ class Motor:
         self.PWMA.start(0)
         self.PWMB.start(0)
 
-    # 停止
-    def stop(self):
-        self.PWMA.ChangeDutyCycle(0)
-        self.PWMB.ChangeDutyCycle(0)
-
     # 前进后退
+
     def forward(self, dtime=0, speed=50):
         '''
         小车前进。
@@ -126,6 +122,11 @@ class Motor:
         self.PWMA.ChangeDutyCycle(speed)
         self.PWMB.ChangeDutyCycle(speed)
         sleep(dtime)
+
+    # 停止
+    def stop(self):
+        self.PWMA.ChangeDutyCycle(0)
+        self.PWMB.ChangeDutyCycle(0)
 
     def __def__(self):
         self.PWMA.stop()
