@@ -3,9 +3,9 @@ from module.LED import *
 
 # 1 关于点灯的部分
 led1 = LED(3)
-led1.turn_on()  # 点亮led
-led1.turn_off()  # 熄灭
-led1.brightness(10)  # 设置亮度
+led1.turn_on()          # 点亮led
+led1.turn_off()         # 熄灭
+led1.brightness(10)     # 设置亮度
 
 
 # 2 实现亮灭5次
