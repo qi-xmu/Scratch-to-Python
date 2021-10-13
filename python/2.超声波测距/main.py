@@ -81,7 +81,7 @@ def get_distance():
 
     # 第二步 接收脉冲信号
     start_time = time()  # 记录低电平结束时间
-    stop_time = time()  # 记录高电平结束时间
+    end_time = time()  # 记录高电平结束时间
     while GPIO.input(echo) == GPIO.LOW:
         start_time = time()
     while GPIO.input(echo) == GPIO.HIGH:
